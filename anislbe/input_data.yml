@@ -1,0 +1,12 @@
+---
+- name: Тест ввода данных
+  hosts: test
+  vars_prompt:
+    - name: x
+      prompt: "Напишите свое имя"
+      private: no
+
+  tasks:
+    - name: Вывод имени
+      debug:
+        msg: Ваше имя {{ x }}

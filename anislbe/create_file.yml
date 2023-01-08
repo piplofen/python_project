@@ -1,0 +1,7 @@
+---
+- hosts: server_testim
+  become: true
+  tasks:
+    - name: Создание файла
+      shell: echo -n ZZZ >> file.txt
+      #echo -n ZZZZ >> file.txt

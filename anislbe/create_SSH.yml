@@ -1,0 +1,22 @@
+---
+- name: Создание SSH ключа для пользователя
+  hosts: server_testim
+  become: true
+  vars_prompt:
+    - name: user
+      prompt: "Введите имя пользователя, у которого генерируется ключ"
+      private: no
+  tasks:
+    - name: Создаю SSH ключ для
+      user:
+        name: "{{ user }}"
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/id_rsa
+
+    - name: Устаналиваю авторизационной ключ из файла
+      authorized_key:
+        user: "{{ user }}"
+        state: present
+        key: "{{ lookup('file', '/home/{{ user }}/.ssh/id_rsa.pub') }}"
+      sudo: true

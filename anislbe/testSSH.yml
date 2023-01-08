@@ -1,0 +1,35 @@
+---
+- name: Генерация SSH ключа
+  hosts: server_testim
+  become: true
+  tasks:
+    - name: Смотрю на содержимое папки с ключами
+      shell: "ls /home/piplofen/.ssh -la"
+      register: output_folder
+
+    - name: Вывожу содержимое папки
+      debug:
+        msg: "{{ output_folder.stdout_lines }}"
+      when: output_folder|length != 0
+
+    - name: Говорю что содержимого нет
+      debug:
+        msg: "Папка пуста или не существует"
+      when: output_folder|length == 0
+
+    - name: Смотрю содержимое файла authorized_keys
+      shell: "cat /home/piplofen/.ssh/authorized_keys"
+      register: output_key
+
+    - name: Вывожу содержимое файла authorized_keys
+      debug:
+        msg: "{{ output_key.stdout_lines }}"
+
+    - name: Генерирую ключ SSH
+      debug:
+        msg: "Сгенерировал"
+
+    - name: Добавляю ключ в файл
+      ansible.builtin.lineinfile:
+        path: /home/piplofen/.ssh/test
+        line: седьмая строка

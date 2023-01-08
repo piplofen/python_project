@@ -1,0 +1,4 @@
+---
+- name: testCisco
+  hosts: cisco
+  command: ping

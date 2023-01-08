@@ -1,0 +1,55 @@
+---
+- name: Создание пользователя на удаленном сервере
+  hosts: lk
+  become: true
+  vars_prompt:
+    - name: user
+      prompt: "Введите имя пользователя"
+      private: no
+    - name: passw
+      prompt: "Введите пароль пользователя"
+      private: no
+    - name: code
+      prompt: "Введите код пользователя"
+      private: yes
+  tasks:
+    - name: "Создание пользователя {{ user }}  с правами администратора"
+      user:
+        name: "{{ user }}"
+        password: "{{ passw | password_hash('sha512') }}"
+        groups: sudo
+        state: present
+        shell: /bin/bash
+        system: no
+        createhome: yes
+      when: "{{ code }} == 1"
+    - name: "Создание пользователя {{ user }} без прав администратора"
+      user:
+        name: "{{ user }}"
+        password: "{{ passw | password_hash('sha512') }}"
+        state: present
+        shell: /bin/bash
+        system: no
+        createhome: yes
+      when: "{{ code }} == 0"
+    - name: "Проверка пользователя {{ user }}"
+      shell: "ls /home"
+      register: home_directory
+    - name: "Вывод домашней директории"
+      debug:
+        msg: "{{ home_directory.stdout_lines }}"
+    - name: "Переношу админский ключ"
+      authorized_key:
+        user: "{{ user }}"
+        state: present
+        key: "{{ lookup('file', '/home/piplofen/.ssh/id_rsa.pub') }}"
+      when: "{{ code }} == 1"
+    - name: "Создание файла с данными пользователя {{ user }}"
+      delegate_to: localhost
+      delegate_facts: true
+      shell: "echo -n Логин: {{ user }} Пароль: {{ passw }} >> LogPass{{ user }}.txt"
+      when: "{{ code }} == 0"
+#lineinfile: dest=/tmp/ans insertafter="^bar" line="foo"
+#выйти с пользователя и зайти под новым пользователем
+#если все прошло ок то вывести соответствующее сообщение
+#рядом с плейбуком создать папку или файл с даннными пользователя

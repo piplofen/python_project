@@ -1,0 +1,14 @@
+---
+- name: Информация о системе
+  hosts: test
+#  deprecation_warnings: false
+  tasks:
+    - name: Данные
+      debug:
+        msg:
+          - "Операционная система: {{ ansible_facts.system }}"
+          - "Дистрибутив: {{ ansible_facts.distribution }}"
+          - "IPv4: {{ ansible_facts.default_ipv4.address }}"
+          - "Пользователь: {{ ansible_facts.user_id }}"
+          - "Дата: {{ ansible_facts.date_time.date }}"
+          - "Время: {{ ansible_facts.date_time.time }}"

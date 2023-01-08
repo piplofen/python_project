@@ -1,0 +1,9 @@
+---
+- name: Test vars
+  hosts: test
+  vars:
+    fav_color: yellow
+  tasks:
+    - name: show fav color
+      debug:
+        msg: My favorite color is {{ fav_color }}

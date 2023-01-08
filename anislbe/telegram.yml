@@ -1,0 +1,19 @@
+---
+- name: "ТЕСТ СООБЩЕНИЙ В ТЕЛЕГРАМЕ"
+  hosts: test
+  tasks:
+    - name: "Отправка сообщения"
+      community.general.telegram:
+        token: '5596385042:AAFXRWZtHmxhcvd1yv-j6rMEH-AWMvfuPA4'
+        api_args:
+          chat_id: -894494719
+          parse_mode: "markdown"
+          text:
+              - "OS: {{ ansible_facts.system }}"
+              - "Dist: {{ ansible_facts.distribution }}"
+              - "IPv4: {{ ansible_facts.default_ipv4.address }}"
+              - "User: {{ ansible_facts.user_id }}"
+              - "Data: {{ ansible_facts.date_time.date }}"
+              - "Time: {{ ansible_facts.date_time.time }}"
+          disable_web_page_preview: true
+          disable_notification: true

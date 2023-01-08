@@ -1,0 +1,9 @@
+---
+- name: "ТЕСТ СООБЩЕНИЙ В ТЕЛЕГРАМЕ"
+  hosts: test
+  vars:
+    color: синий
+    test1: "curl https://api.telegram.org/bot5596385042:AAFXRWZtHmxhcvd1yv-j6rMEH-AWMvfuPA4/sendMessage -d chat_id=-894494719 -d text=Операционнаая+система:+{{ ansible_facts.system }}%0AДистрибутив:+{{ ansible_facts.distribution }}"
+  tasks:
+    - name: test
+      command: "{{test1}}"
