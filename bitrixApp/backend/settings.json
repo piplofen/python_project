@@ -1,0 +1,9 @@
+{
+ "access_token": "access_token",
+ "expires_in": "expires_in",
+ "application_token": "application_token",
+ "refresh_token": "refresh_token",
+ "domain": "domain",
+ "client_endpoint": "client_endpoint",
+ "timeNewAccessToken": "2023-03-02 17:10:16.211640"
+}
