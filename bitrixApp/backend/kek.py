@@ -24,7 +24,7 @@ def kek(environ, start_response):
     inParams = hf.allParams(environ)
     u.writeFile("inParams", "json", "w", inParams)
     pprint(inParams)
-    try:  # https://finarbitr.bitrix24.ru/rest/9356/xzbva3ox6r0d1tqt/profile.json?auth=6610ee630055ec880047825c0000248cf0f107401e0b1881bb7741d5b02335d262f3a6
+    try:
         auth = inParams["AUTH_ID"]
         url = f"{s.urlForAuth}profile.json?auth={auth}"
         r = requests.get(url)
